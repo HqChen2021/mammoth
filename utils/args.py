@@ -34,7 +34,7 @@ def add_experiment_args(parser: ArgumentParser) -> None:
     parser.add_argument('--batch_size', type=int,
                         help='Batch size.')
 
-    parser.add_argument('--distributed', type=str, default='no', choices=['no', 'dp', 'ddp'])
+    parser.add_argument('--distributed', type=str, default='dp', choices=['no', 'dp', 'ddp'])
 
 
 def add_management_args(parser: ArgumentParser) -> None:

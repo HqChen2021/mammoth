@@ -50,12 +50,16 @@ class ContinualModel(nn.Module):
         return self.net(x)
 
     def meta_observe(self, *args, **kwargs):
-        if 'wandb' in sys.modules and not self.args.nowand:
-            pl = persistent_locals(self.observe)
-            ret = pl(*args, **kwargs)
-            self.autolog_wandb(pl.locals)
-        else:
-            ret = self.observe(*args, **kwargs)
+        # CHQ comment this out due to we only need record loss
+        # if 'wandb' in sys.modules and not self.args.nowand:
+        #     pl = persistent_locals(self.observe)
+        #     ret = pl(*args, **kwargs)
+        #     self.autolog_wandb(pl.locals)
+        # else:
+        #     ret = self.observe(*args, **kwargs)
+        ret = self.observe(*args, **kwargs)
+        if not self.args.nowand and not self.args.debug_mode:
+            wandb.log({'loss': ret})
         return ret
 
     def observe(self, inputs: torch.Tensor, labels: torch.Tensor,

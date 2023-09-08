@@ -88,7 +88,8 @@ def train(model: ContinualModel, dataset: ContinualDataset,
 
     if not args.nowand:
         assert wandb is not None, "Wandb not installed, please install it or run without wandb"
-        wandb.init(project=args.wandb_project, entity=args.wandb_entity, config=vars(args))
+        # wandb.init(project=args.wandb_project, entity=args.wandb_entity, config=vars(args))
+        wandb.init(project=args.wandb_project, config=vars(args))
         args.wandb_url = wandb.run.get_url()
 
     model.net.to(model.device)
@@ -101,9 +102,9 @@ def train(model: ContinualModel, dataset: ContinualDataset,
 
     if not args.ignore_other_metrics:
         dataset_copy = get_dataset(args)
-        for t in range(dataset.N_TASKS):
-            model.net.train()
-            _, _ = dataset_copy.get_data_loaders()
+        # for t in range(dataset.N_TASKS):
+        #     model.net.train()
+        #     _, _ = dataset_copy.get_data_loaders()
         if model.NAME != 'icarl' and model.NAME != 'pnn':
             random_results_class, random_results_task = evaluate(model, dataset_copy)
 
